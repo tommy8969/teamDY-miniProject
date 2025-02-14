@@ -32,7 +32,7 @@ public class Application {
             switch (input) {
                 case 1: bs.findAllBooks(); break;
                 case 2: bs.searchBook(); break;
-                case 3: break;
+                case 3: bs.borrowBooks(bookName()); break;
                 case 4: break;
                 case 5: break;
                 case 6: bs.addBook(bookInfo()); break;
@@ -86,5 +86,10 @@ public class Application {
         return bookInfo;
     }
 
+    private static String bookName() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("책 제목을 입력하세요: ");
+        return sc.nextLine();
+    }
 
 }

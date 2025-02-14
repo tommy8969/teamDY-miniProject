@@ -1,19 +1,26 @@
 package teamDY.library.repository;
 
 import teamDY.library.aggregate.Book;
+import teamDY.library.aggregate.BorrowingBooks;
 import teamDY.library.aggregate.BookStatus;
 import teamDY.library.aggregate.Category;
 import teamDY.library.stream.MyObjectOutput;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.time.LocalDate;
 
 public class BookRepository {
 
     private final ArrayList<Book> bookList = new ArrayList<>();
+    private final ArrayList<BorrowingBooks> borrowingList = new ArrayList<>();
 
     private final File file = new File(
             "src/main/java/teamDY/library/db/bookDB.dat"
+    );
+
+    private final File borrowingFile = new File(
+            "src/main/java/teamDY/library/db/borrowingBookDB.dat"
     );
 
     public BookRepository() {
@@ -83,6 +90,57 @@ public class BookRepository {
 
         return bookList;
     }
+
+    public Book checkAndBorrowBook(String title) {
+        Book returnBook = null;
+
+        for (Book book : bookList) {
+            if (book.getTitle().equals(title)) {
+                returnBook = book;
+            }
+        }
+        return returnBook;
+    }
+
+    public void borrowedBooks(Book finedBook) {
+        BorrowingBooks borrowingBook = new BorrowingBooks(
+                finedBook.getBookId(), finedBook.getTitle(), LocalDate.now(), LocalDate.now().plusDays(14)
+        );
+        System.out.println("<" + borrowingBook.getTitle() + ">" + " 대출 완료!");
+        borrowingList.add(borrowingBook);
+        updateBooks(borrowingBook);
+    }
+
+    public void updateBooks(BorrowingBooks borrowingBook) {
+        ObjectOutputStream oos = null;
+        MyObjectOutput moo = null;
+        int result = 0;
+
+        try {
+            if (!borrowingFile.exists()) {
+                oos = new ObjectOutputStream(
+                        new BufferedOutputStream(
+                                new FileOutputStream(borrowingFile)));
+            } else {
+                oos = new MyObjectOutput(
+                        new BufferedOutputStream(
+                                new FileOutputStream(borrowingFile)
+                        )
+                );
+            }
+            oos.writeObject(borrowingBook);
+            result = 1;
+        } catch (IOException e) {
+            throw new RuntimeException();
+        } finally {
+            try {
+                if(moo != null) moo.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 
 
     public int getLastBookId() {

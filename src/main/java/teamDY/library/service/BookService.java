@@ -135,4 +135,18 @@ public class BookService {
 
     }
 
+    public void borrowBooks(String bookName) {
+        Book findBook = br.checkAndBorrowBook(bookName);
+
+        if (findBook != null) {
+            if (findBook.getBookStatus() == BookStatus.IN_LIBRARY) {
+                br.borrowedBooks(findBook);     // 대출 처리
+            } else {
+                System.out.println("<" + findBook.getTitle() + ">" + " 은(는) 현재 대출 중입니다.");
+            }
+        } else {
+            System.out.println("도서관에 등록된 책이 아닙니다.");
+        }
+    }
+
 }
