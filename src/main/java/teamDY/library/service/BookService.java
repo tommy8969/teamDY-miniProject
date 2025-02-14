@@ -2,6 +2,7 @@ package teamDY.library.service;
 
 import teamDY.library.aggregate.Book;
 import teamDY.library.aggregate.BookStatus;
+import teamDY.library.aggregate.BorrowingBooks;
 import teamDY.library.aggregate.Category;
 import teamDY.library.repository.BookRepository;
 
@@ -136,10 +137,11 @@ public class BookService {
     }
 
     public void borrowBooks(String bookName) {
-        Book findBook = br.checkAndBorrowBook(bookName);
+        Book findBook = br.findBook(bookName);
 
         if (findBook != null) {
             if (findBook.getBookStatus() == BookStatus.IN_LIBRARY) {
+                findBook.setBookStatus(BookStatus.CHECKED_OUT);
                 br.borrowedBooks(findBook);     // 대출 처리
             } else {
                 System.out.println("<" + findBook.getTitle() + ">" + " 은(는) 현재 대출 중입니다.");
@@ -149,4 +151,13 @@ public class BookService {
         }
     }
 
+    public void returnBooks(String bookName) {
+        BorrowingBooks borrowingBooks = br.checkBorrowedBook(bookName);
+
+        if (borrowingBooks != null) {
+            br.finalReturnBook(borrowingBooks);     // 반납 처리
+        } else {
+            System.out.println("대출하신 도서와 일치하지 않습니다.");
+        }
+    }
 }

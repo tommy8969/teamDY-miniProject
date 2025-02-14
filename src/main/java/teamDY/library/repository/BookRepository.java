@@ -91,7 +91,7 @@ public class BookRepository {
         return bookList;
     }
 
-    public Book checkAndBorrowBook(String title) {
+    public Book findBook(String title) {
         Book returnBook = null;
 
         for (Book book : bookList) {
@@ -107,14 +107,38 @@ public class BookRepository {
                 finedBook.getBookId(), finedBook.getTitle(), LocalDate.now(), LocalDate.now().plusDays(14)
         );
         System.out.println("<" + borrowingBook.getTitle() + ">" + " 대출 완료!");
+        System.out.println("대출일은 " + LocalDate.now() + "이며, 반납일은 " + LocalDate.now().plusDays(14) + "입니다.");
         borrowingList.add(borrowingBook);
         updateBooks(borrowingBook);
+        saveBooks(bookList);
     }
+
+    public BorrowingBooks checkBorrowedBook(String bookName) {
+        BorrowingBooks returnBook = null;
+
+        for (BorrowingBooks book : borrowingList) {
+            if (book.getTitle().equals(bookName)) {
+                returnBook = book;
+            }
+        }
+        return returnBook;
+    }
+
+    public void finalReturnBook(BorrowingBooks borrowingBooks) {
+        for(Book book : bookList) {
+            if(book.getTitle().equals(borrowingBooks.getTitle())) {
+                book.setBookStatus(BookStatus.IN_LIBRARY);
+            }
+        }
+        borrowingList.remove(borrowingBooks);
+        saveBooks(bookList);
+        System.out.println("반납이 완료되었습니다.");
+    }
+
+
 
     public void updateBooks(BorrowingBooks borrowingBook) {
         ObjectOutputStream oos = null;
-        MyObjectOutput moo = null;
-        int result = 0;
 
         try {
             if (!borrowingFile.exists()) {
@@ -129,12 +153,12 @@ public class BookRepository {
                 );
             }
             oos.writeObject(borrowingBook);
-            result = 1;
+
         } catch (IOException e) {
             throw new RuntimeException();
         } finally {
             try {
-                if(moo != null) moo.close();
+                if(oos != null) oos.close();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -180,7 +204,6 @@ public class BookRepository {
         }
         return result;
     }
-
 }
 
 
