@@ -34,7 +34,7 @@ public class Application {
                 case 2: bs.searchBook(); break;
                 case 3: bs.borrowBooks(bookName()); break;
                 case 4: bs.returnBooks(bookName()); break;
-                case 5: break;
+                case 5: bs.extendBooks(bookName()); break;
                 case 6: bs.addBook(bookInfo()); break;
 //                case 7: bs.deleteBook(); break;
                 case 9:

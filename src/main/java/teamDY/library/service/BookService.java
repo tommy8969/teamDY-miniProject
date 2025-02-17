@@ -6,6 +6,7 @@ import teamDY.library.aggregate.BorrowingBooks;
 import teamDY.library.aggregate.Category;
 import teamDY.library.repository.BookRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -159,5 +160,18 @@ public class BookService {
         } else {
             System.out.println("대출하신 도서와 일치하지 않습니다.");
         }
+    }
+
+    public void extendBooks(String bookName) {
+        BorrowingBooks extendBook = br.extendingDate(bookName);
+        LocalDate dueDate = extendBook.getReturnDate();
+        if(extendBook.getBorrowDate().plusDays(14).isBefore(extendBook.getReturnDate())){
+            dueDate = extendBook.getReturnDate().plusDays(14);
+            System.out.println("연장 완료!");
+            System.out.println("반납일이 " + dueDate + "까지 연장되었습니다.");
+        } else {
+            System.out.println("이미 반납일이 지나 연잘을 할 수 없습니다.");
+        }
+
     }
 }

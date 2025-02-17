@@ -204,6 +204,16 @@ public class BookRepository {
         }
         return result;
     }
+
+    public BorrowingBooks extendingDate(String bookName) {
+        BorrowingBooks returnBook = null;
+        for (BorrowingBooks book : borrowingList) {
+            if (book.getTitle().equals(bookName)) {
+                returnBook = book;
+            }
+        }
+        return returnBook;
+    }
 }
 
 
