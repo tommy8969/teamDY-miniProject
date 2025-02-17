@@ -1,7 +1,5 @@
 package teamDY.library.aggregate;
 
-import teamDY.library.repository.BookRepository;
-
 import java.io.Serializable;
 
 public class Book implements Serializable {

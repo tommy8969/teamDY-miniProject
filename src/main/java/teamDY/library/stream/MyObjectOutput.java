@@ -13,5 +13,4 @@ public class MyObjectOutput extends ObjectOutputStream {
     protected void writeStreamHeader() throws IOException {
 
     }
-
 }

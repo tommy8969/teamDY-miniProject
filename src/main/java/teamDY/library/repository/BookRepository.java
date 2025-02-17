@@ -166,7 +166,6 @@ public class BookRepository {
     }
 
 
-
     public int getLastBookId() {
         Book lastBookId = bookList.get(bookList.size() - 1);
 

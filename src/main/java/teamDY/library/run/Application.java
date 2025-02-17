@@ -44,9 +44,7 @@ public class Application {
                     System.out.println("메뉴를 다시 선택하세요.");
                     break;
             }
-
         }
-
     }
 
     private static Book bookInfo() {
@@ -91,5 +89,4 @@ public class Application {
         System.out.print("책 제목을 입력하세요: ");
         return sc.nextLine();
     }
-
 }
