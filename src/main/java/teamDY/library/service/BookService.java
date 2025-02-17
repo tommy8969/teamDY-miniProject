@@ -176,4 +176,12 @@ public class BookService {
         }
 
     }
+    public void deleteBook(String bookName) {
+        int result = br.extractBook(bookName);
+        if (result == 1) {
+            System.out.println(bookName + " 도서 삭제 성공");
+        } else {
+            System.out.println("도서 삭제 실패");
+        }
+    }
 }
