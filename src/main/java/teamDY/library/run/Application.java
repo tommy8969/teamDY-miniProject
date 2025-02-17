@@ -36,7 +36,7 @@ public class Application {
                 case 4: bs.returnBooks(bookName()); break;
                 case 5: bs.extendBooks(bookName()); break;
                 case 6: bs.addBook(bookInfo()); break;
-//                case 7: bs.deleteBook(); break;
+                case 7: bs.deleteBook(bookName()); break;
                 case 9:
                     System.out.println("프로그램을 종료합니다.");
                     return;

@@ -9,7 +9,7 @@ import teamDY.library.stream.MyObjectOutput;
 import java.io.*;
 import java.util.ArrayList;
 import java.time.LocalDate;
-
+import java.util.Iterator;
 public class BookRepository {
 
     private final ArrayList<Book> bookList = new ArrayList<>();
@@ -213,6 +213,22 @@ public class BookRepository {
             }
         }
         return returnBook;
+    }
+
+    public int extractBook(String bookName) {
+        int result = 0;
+
+        Iterator<Book> iterator = bookList.iterator();
+        while (iterator.hasNext()) {
+            Book book = iterator.next();
+            if (book.getTitle().equals(bookName)) {
+                iterator.remove();
+                result = 1;
+                break;
+            }
+        }
+
+        return result;
     }
 }
 
