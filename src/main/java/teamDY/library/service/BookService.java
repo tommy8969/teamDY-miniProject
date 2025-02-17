@@ -165,8 +165,10 @@ public class BookService {
     public void extendBooks(String bookName) {
         BorrowingBooks extendBook = br.extendingDate(bookName);
         LocalDate dueDate = extendBook.getReturnDate();
-        if(extendBook.getBorrowDate().plusDays(14).isBefore(extendBook.getReturnDate())){
-            dueDate = extendBook.getReturnDate().plusDays(14);
+
+        if((LocalDate.now()).isBefore(dueDate.plusDays(14))) {
+//        if(dueDate.plusDays(14).isBefore(LocalDate.now())) {
+            dueDate = dueDate.plusDays(7);
             System.out.println("연장 완료!");
             System.out.println("반납일이 " + dueDate + "까지 연장되었습니다.");
         } else {
